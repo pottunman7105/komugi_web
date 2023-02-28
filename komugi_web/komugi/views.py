@@ -21,6 +21,6 @@ def article(request,article_id):
     template = loader.get_template('article.html')
     context = {
         'article':article
-    }
+    } 
 
     return HttpResponse(template.render(context,request))
