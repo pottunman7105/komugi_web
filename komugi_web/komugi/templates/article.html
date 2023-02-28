@@ -1,4 +1,8 @@
 {% include 'header.html' %}
-<h2>{{title}}</h2>
-<p>{{content}}</p>
+<article>
+    <h2>{{article.title}}</h2>
+    <small>{{ article.created_at | date:'Y年n月j日' }}</small>
+    {{ article.coontent | linebreaks }}
+    <p><a href="/komugi">トップページ</a></p>
+</article>
 {% include 'footer.html' %}
