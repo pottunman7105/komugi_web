@@ -1,26 +1,21 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.views import generic
 
 from .models import Article
 
 
-def index(request):
-    template = loader.get_template('index.html')
-    articles = Article.objects.order_by('-created_at')[:5]
-    context = {
-        'articles':articles
-    }
-    return HttpResponse(template.render(context,request))
+class IndexView(generic.ListView):
+    model = Article
+    template_name = 'index.html'
 
-def page(request,page_id):
-    message = "ページ" + str(page_id)
-    return HttpResponse(message)
+    def get_quaryset(self):
+        return Article.objects.order_by('created_at')[:5]
 
-def article(request,article_id):
-    article = Article.objects.get(pk = article_id)
-    template = loader.get_template('article.html')
-    context = {
-        'article':article
-    } 
 
-    return HttpResponse(template.render(context,request))
+class ArticleView(generic.DetailView):
+    model = Article
+    template_name = 'article.html'
+
+index = IndexView.as_view()
+article = ArticleView.as_view()
